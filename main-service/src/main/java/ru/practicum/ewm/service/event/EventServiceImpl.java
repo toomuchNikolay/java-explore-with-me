@@ -150,7 +150,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto getById(Long eventId) {
         Event event = eventRepository.findPublished(eventId)
-                        .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
+                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
         updateEventStatistics(event);
         log.info("Возвращено событие - {}", event);
         return mapper.toFullDto(event);
@@ -179,7 +179,7 @@ public class EventServiceImpl implements EventService {
         Optional.ofNullable(request.getEventDate()).ifPresent(entity::setEventDate);
         Optional.ofNullable(request.getDescription()).ifPresent(entity::setDescription);
         Optional.ofNullable(request.getParticipantLimit()).ifPresent(entity::setParticipantLimit);
-        Optional.ofNullable(request.getStateAction()).ifPresent(state -> entity.setState(switch (state) {
+        Optional.ofNullable(request.getStateAction()).ifPresent(state -> entity.setState( switch (state) {
             case CANCEL_REVIEW, REJECT_EVENT -> CANCELED;
             case PUBLISH_EVENT -> PUBLISHED;
             case SEND_TO_REVIEW -> PENDING;

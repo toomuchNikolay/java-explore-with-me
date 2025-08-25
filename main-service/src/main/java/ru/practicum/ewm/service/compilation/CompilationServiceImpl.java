@@ -65,7 +65,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationDto getById(Long compId) {
-        Compilation compilation= findCompilationOrThrow(compId);
+        Compilation compilation = findCompilationOrThrow(compId);
         log.info("Возвращена подборка событий - {}", compilation);
         return mapper.toDto(compilation);
     }
