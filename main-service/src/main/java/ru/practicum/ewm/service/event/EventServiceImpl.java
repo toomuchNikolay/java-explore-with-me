@@ -179,11 +179,13 @@ public class EventServiceImpl implements EventService {
         Optional.ofNullable(request.getEventDate()).ifPresent(entity::setEventDate);
         Optional.ofNullable(request.getDescription()).ifPresent(entity::setDescription);
         Optional.ofNullable(request.getParticipantLimit()).ifPresent(entity::setParticipantLimit);
-        Optional.ofNullable(request.getStateAction()).ifPresent(state -> entity.setState(switch(state) {
-            case CANCEL_REVIEW, REJECT_EVENT -> CANCELED;
-            case PUBLISH_EVENT -> PUBLISHED;
-            case SEND_TO_REVIEW -> PENDING;
-        }));
+        Optional.ofNullable(request.getStateAction()).ifPresent(state ->
+                entity.setState(switch (state) {
+                    case CANCEL_REVIEW, REJECT_EVENT -> CANCELED;
+                    case PUBLISH_EVENT -> PUBLISHED;
+                    case SEND_TO_REVIEW -> PENDING;
+                })
+        );
         Optional.ofNullable(request.getLocation()).ifPresent(location -> {
             Optional.ofNullable(location.getLat()).ifPresent(entity::setLocationLat);
             Optional.ofNullable(location.getLon()).ifPresent(entity::setLocationLon);
