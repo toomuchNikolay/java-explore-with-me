@@ -6,19 +6,18 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StatsClient {
     private final RestTemplate rest;
 
-    public StatsClient(@Value("${ewm-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public StatsClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
         rest = builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
@@ -30,19 +29,17 @@ public class StatsClient {
     }
 
     public List<ViewStats> get(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("start", start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        parameters.put("end", end.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        parameters.put("unique", unique);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/stats")
+                .queryParam("start", start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .queryParam("end", end.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .queryParam("unique", unique);
         if (uris != null) {
-            parameters.put("uris", uris);
+            for (String uri : uris) {
+                builder.queryParam("uris", uri);
+            }
         }
 
-        ViewStats[] response = rest.getForObject(
-                "/stats?start={start}&end={end}&uris={uris}&unique={unique}",
-                ViewStats[].class,
-                parameters
-        );
+        ViewStats[] response = rest.getForObject(builder.toUriString(), ViewStats[].class);
 
         return response != null ? List.of(response) : Collections.emptyList();
     }
