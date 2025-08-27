@@ -1,7 +1,6 @@
 package ru.practicum.ewm.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewm.EndpointHit;
 import ru.practicum.ewm.ViewStats;
 import ru.practicum.ewm.service.StatsService;
@@ -25,7 +25,7 @@ import java.util.List;
 @Validated
 @Slf4j
 public class StatsController {
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private final StatsService service;
 
     @PostMapping("/hit")
@@ -36,11 +36,14 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<ViewStats>> get(@RequestParam @DateTimeFormat(pattern = DATE_TIME_FORMAT) @NotNull LocalDateTime start,
-                                               @RequestParam @DateTimeFormat(pattern = DATE_TIME_FORMAT) @NotNull LocalDateTime end,
+    public ResponseEntity<List<ViewStats>> get(@RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime start,
+                                               @RequestParam @DateTimeFormat(pattern = DATE_FORMAT) LocalDateTime end,
                                                @RequestParam(required = false) List<String> uris,
-                                               @RequestParam(defaultValue = "false") boolean unique) {
+                                               @RequestParam(defaultValue = "false") Boolean unique) {
         log.info("Запрос на получение статистики: start={} | end={} | uris={} | unique={}", start, end, uris, unique);
+        if (!start.isBefore(end)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Дата начала периода должна быть раньше даты окончания");
+        }
         List<ViewStats> response = service.get(start, end, uris, unique);
         return ResponseEntity.ok(response);
     }

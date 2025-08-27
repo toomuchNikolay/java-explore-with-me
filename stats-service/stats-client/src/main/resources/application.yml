@@ -1,5 +1,2 @@
 server:
   port: 8080
-
-ewm-server:
-  url: http://localhost:9090
