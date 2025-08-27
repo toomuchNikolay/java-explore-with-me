@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+//@Builder(toBuilder = true)
 public class EventRequestStatusUpdateRequest {
     @NotNull
     List<@Positive Long> requestIds;

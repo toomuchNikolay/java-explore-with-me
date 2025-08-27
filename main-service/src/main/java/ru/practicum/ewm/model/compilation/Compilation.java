@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.practicum.ewm.model.event.Event;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -32,5 +32,5 @@ public class Compilation {
             joinColumns = @JoinColumn(name = "compilation_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    private List<Event> events;
+    private Set<Event> events;
 }

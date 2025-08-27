@@ -7,12 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.EndpointHit;
 import ru.practicum.ewm.StatsClient;
 import ru.practicum.ewm.dto.event.EventFullDto;
@@ -28,7 +24,7 @@ import java.util.List;
 import static ru.practicum.ewm.util.ParserUtils.parseDateTime;
 import static ru.practicum.ewm.util.ParserUtils.parseEnum;
 
-@Controller
+@RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
 @Validated

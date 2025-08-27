@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+//@Builder(toBuilder = true)
 public class CategoryDto {
     private Long id;
 

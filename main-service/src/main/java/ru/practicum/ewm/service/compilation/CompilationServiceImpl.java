@@ -15,8 +15,10 @@ import ru.practicum.ewm.model.event.Event;
 import ru.practicum.ewm.repository.compilation.CompilationRepository;
 import ru.practicum.ewm.repository.event.EventRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -79,7 +81,7 @@ public class CompilationServiceImpl implements CompilationService {
         Optional.ofNullable(dto.getTitle()).ifPresent(entity::setTitle);
         Optional.ofNullable(dto.getPinned()).ifPresent(entity::setPinned);
         Optional.ofNullable(dto.getEvents()).ifPresent(ids -> {
-            List<Event> events = eventRepository.findAllByIdIn(dto.getEvents());
+            Set<Event> events = new HashSet<>(eventRepository.findAllByIdIn(dto.getEvents()));
             entity.setEvents(events);
         });
     }

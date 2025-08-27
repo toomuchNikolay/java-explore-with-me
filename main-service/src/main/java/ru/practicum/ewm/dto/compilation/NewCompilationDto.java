@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+//@Builder(toBuilder = true)
 public class NewCompilationDto {
     @NotBlank
     @Size(min = 1, max = 50)
