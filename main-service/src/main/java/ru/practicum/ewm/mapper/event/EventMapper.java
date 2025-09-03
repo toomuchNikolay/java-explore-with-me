@@ -18,6 +18,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class, EventState.class})
 public interface EventMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "publishedOn", ignore = true)
+    @Mapping(target = "confirmedRequests", ignore = true)
+    @Mapping(target = "views", ignore = true)
     @Mapping(target = "category", source = "category")
     @Mapping(target = "initiator", source = "initiator")
     @Mapping(target = "locationLat", source = "dto.location.lat")

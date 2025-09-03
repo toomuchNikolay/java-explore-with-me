@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder(toBuilder = true)
 public class CompilationDto {
     private Long id;
     private String title;

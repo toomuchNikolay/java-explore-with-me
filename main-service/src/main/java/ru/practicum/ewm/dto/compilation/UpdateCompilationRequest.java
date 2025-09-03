@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder(toBuilder = true)
 public class UpdateCompilationRequest {
     @Size(min = 1, max = 50)
     private String title;

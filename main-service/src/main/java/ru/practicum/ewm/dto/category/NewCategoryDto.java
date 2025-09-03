@@ -7,7 +7,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder(toBuilder = true)
 public class NewCategoryDto {
     @NotBlank
     @Size(min = 1, max = 50)

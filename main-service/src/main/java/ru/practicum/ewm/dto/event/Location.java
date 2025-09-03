@@ -7,7 +7,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder(toBuilder = true)
 public class Location {
     @DecimalMin(value = "-90.0")
     @DecimalMax(value = "90.0")
